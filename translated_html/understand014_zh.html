@@ -488,7 +488,27 @@ Linux 试图把页在磁盘上组织成大小为 <tt>SWAPFILE_CLUSTER</tt> 的<e
 </p>
 
 <div class="figure" id="fig-read-swap-cache-async">
-  <img src="../original_html/figures/understand-html069.png" alt="图 11.5：调用图：read_swap_cache_async()">
+  <svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 220" width="760" height="220" font-family="sans-serif" font-size="14">
+    <title>图 11.5：调用图：read_swap_cache_async()</title>
+    <rect x="290" y="20" width="200" height="40" fill="#ffffff" stroke="#000000"/>
+    <text x="390" y="45" text-anchor="middle">read_swap_cache_async()</text>
+    <line x1="320" y1="60" x2="100" y2="140" stroke="#000000"/>
+    <polygon points="95,135 108,140 100,148" fill="#000000"/>
+    <line x1="360" y1="60" x2="270" y2="140" stroke="#000000"/>
+    <polygon points="266,134 278,140 270,148" fill="#000000"/>
+    <line x1="420" y1="60" x2="510" y2="140" stroke="#000000"/>
+    <polygon points="514,134 502,140 510,148" fill="#000000"/>
+    <line x1="460" y1="60" x2="680" y2="140" stroke="#000000"/>
+    <polygon points="685,135 672,140 680,148" fill="#000000"/>
+    <rect x="10" y="150" width="180" height="40" fill="#ffffff" stroke="#000000"/>
+    <text x="100" y="175" text-anchor="middle">lookup_swap_cache()</text>
+    <rect x="200" y="150" width="140" height="40" fill="#ffffff" stroke="#000000"/>
+    <text x="270" y="175" text-anchor="middle">alloc_page()</text>
+    <rect x="350" y="150" width="180" height="40" fill="#ffffff" stroke="#000000"/>
+    <text x="440" y="175" text-anchor="middle">add_to_swap_cache()</text>
+    <rect x="590" y="150" width="160" height="40" fill="#ffffff" stroke="#000000"/>
+    <text x="670" y="175" text-anchor="middle">rw_swap_page()</text>
+  </svg>
   <div class="caption">图 11.5：调用图：<tt>read_swap_cache_async()</tt></div>
 </div>
 
