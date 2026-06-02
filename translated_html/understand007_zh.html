@@ -1000,7 +1000,31 @@
   <p>当页被换出到后备存储时，<tt>do_swap_page()</tt> 负责读回（除虚拟文件之外，详见第 12 章）。所需信息存于 PTE 中，足以在 swap 中定位该页。由于页可能多进程共享，不能立即换出——换出时先放入 swap cache。</p>
 
   <div class="figure">
-    <img src="../original_html/figures/understand-html024.png" alt="图 4.16">
+    <svg role="img" viewBox="0 0 900 200" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto;font-family:monospace;font-size:13px">
+      <title>图 4.16：函数调用图：do_swap_page()</title>
+      <defs>
+        <marker id="arrow024" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="#333"/>
+        </marker>
+      </defs>
+      <rect x="370" y="10" width="160" height="50" rx="6" ry="6" fill="#fff" stroke="#333"/>
+      <text x="450" y="40" text-anchor="middle">do_swap_page()</text>
+      <rect x="5" y="120" width="180" height="50" rx="6" ry="6" fill="#fff" stroke="#333"/>
+      <text x="95" y="150" text-anchor="middle">lookup_swap_cache()</text>
+      <rect x="195" y="120" width="180" height="50" rx="6" ry="6" fill="#fff" stroke="#333"/>
+      <text x="285" y="150" text-anchor="middle">swapin_readahead()</text>
+      <rect x="385" y="120" width="190" height="50" rx="6" ry="6" fill="#fff" stroke="#333"/>
+      <text x="480" y="150" text-anchor="middle">read_swap_cache_async()</text>
+      <rect x="585" y="120" width="150" height="50" rx="6" ry="6" fill="#fff" stroke="#333"/>
+      <text x="660" y="150" text-anchor="middle">swap_free()</text>
+      <rect x="745" y="120" width="150" height="50" rx="6" ry="6" fill="#fff" stroke="#333"/>
+      <text x="820" y="150" text-anchor="middle">pte_mkwrite()</text>
+      <line x1="400" y1="60" x2="95" y2="120" stroke="#333" marker-end="url(#arrow024)"/>
+      <line x1="425" y1="60" x2="285" y2="120" stroke="#333" marker-end="url(#arrow024)"/>
+      <line x1="450" y1="60" x2="480" y2="120" stroke="#333" marker-end="url(#arrow024)"/>
+      <line x1="475" y1="60" x2="660" y2="120" stroke="#333" marker-end="url(#arrow024)"/>
+      <line x1="500" y1="60" x2="820" y2="120" stroke="#333" marker-end="url(#arrow024)"/>
+    </svg>
     <div class="caption">图 4.16：函数调用图：<tt>do_swap_page()</tt></div>
   </div>
 
