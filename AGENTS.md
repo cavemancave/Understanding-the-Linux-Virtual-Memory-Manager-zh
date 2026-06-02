@@ -2,15 +2,22 @@
 
 This file records the project owner's standing instructions. Agents (Copilot CLI, etc.) MUST follow these rules when working in this repository.
 
+## Project status
+Translation and figure work for the book is **complete**:
+- All 28 source chapters (`understand001.html` … `understand028.html`) translated to Simplified Chinese.
+- All figures converted to inline `<svg>` with Chinese labels.
+- `understand029.html` is empty in the source and skipped.
+
+These rules still apply to any future fix-ups, retranslations, or new content.
+
 ## Identity / commits
 - Use the project's original git identity: `cavemancave <echooffapple@gmail.com>`.
-- This matches the existing history on `origin/main`. Set it per-worktree with `git config user.name cavemancave` and `git config user.email echooffapple@gmail.com` if the worktree's config differs.
-
-## Commit & push policy
+- Set it per-worktree if the worktree's config differs:
+  `git config user.name cavemancave && git config user.email echooffapple@gmail.com`.
 - One file per commit. After each successful change to a file, create a commit immediately.
 - Commit messages are written in **English** (the codebase content is bilingual, but commit history stays English).
 - Push after every commit (`git push`), so progress is visible upstream.
-- Include the standard `Co-authored-by: Copilot ...` trailer when an AI agent assisted.
+- Include a `Co-authored-by: Copilot <198982749+Copilot@users.noreply.github.com>` trailer when an AI agent assisted.
 
 ## Translation work
 - Source: `original_html/understandNNN.html` (English).
@@ -26,26 +33,23 @@ This file records the project owner's standing instructions. Agents (Copilot CLI
 - Verify by running `grep -c '<PRE' …` on both source and target — counts must match.
 
 ### Navigation and cross-reference links
-- Links to sibling chapters (Prev / Next / Up / TOC and inline `<a href="understandNNN.html#anchor">…</a>` references) MUST point to the `_zh.html` version once that chapter has been translated.
-- If the target chapter is not yet translated, leave the link as `../original_html/understandNNN.html#anchor` as a placeholder.
-- Whenever a new chapter is translated, sweep existing translated files and rewrite any link whose target is now translated.
+- Links to sibling chapters (Prev / Next / Up / TOC and inline `<a href="understandNNN.html#anchor">…</a>` references) MUST point to the `_zh.html` version (every chapter is now translated).
+- If a future new source chapter is added but not yet translated, leave its link as `../original_html/understandNNN.html#anchor` as a placeholder, then sweep when it is translated.
 
 ## Figures
-- Figures in the Chinese HTML files must be **inline `<svg>`** (not `<img>` to PNG).
-- SVG text/labels are translated to Chinese.
-- Convert one figure per commit to keep context small and review easy.
-- Commit message format: `Inline SVG for figure N in understandNNN_zh (Chinese labels)`.
+- Figures in the Chinese HTML files are **inline `<svg>`** (not `<img>` to PNG); SVG text/labels are in Chinese.
+- Convert one figure per commit: `Inline SVG for figure N in understandNNN_zh (Chinese labels)`.
 
-## Order of work — each unit in a fresh sub-agent / session
-To avoid context attention deterioration, **every file translation and every figure-to-SVG conversion is performed by a fresh sub-agent (separate context window)**. The main session only orchestrates and verifies. A sub-agent receives full context (this AGENTS.md, the target file, the rules below) and is itself responsible for committing + pushing before exiting.
+## Commit message conventions (English)
+- Translation: `Translate understandNNN to Chinese (chapter X / appendix Y)`
+- Figure: `Inline SVG for figure N in understandNNN_zh (Chinese labels)`
 
-For each remaining English chapter file:
-1. Sub-agent translates the file → commit → push.
-2. For each figure in that chapter, a separate sub-agent converts it to inline SVG → commit → push.
-3. Then move to the next chapter.
+## Sub-agent / fresh-context workflow (when a unit is large)
+For non-trivial new translation or figure work, prefer a fresh sub-agent (separate context window) per file or per figure to avoid context attention deterioration. The sub-agent is responsible for committing and pushing before exiting; the main session only orchestrates and verifies.
 
-Retroactive PNG→SVG conversion for `understand005_zh..008_zh.html` follows the same one-sub-agent-per-figure rule.
+For minor edits and fix-ups that fit in the main session, edit directly — no sub-agent needed.
 
 ## Progress tracking
-- Persistent per-session plan lives in the agent's session workspace (`plan.md`) and the SQL `todos` table.
-- This `AGENTS.md` is the long-lived rule book; update it when the owner's preferences change.
+- Long-lived rules: this `AGENTS.md`. Update when the owner's preferences change.
+- Per-session plans (when needed): `plan.md` at the repo root.
+
