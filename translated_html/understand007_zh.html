@@ -478,7 +478,22 @@
   <p><tt>do_mmap2()</tt> 首先清除 <tt>flags</tt> 参数中的 <tt>MAP_DENYWRITE</tt> 与 <tt>MAP_EXECUTABLE</tt> 位（Linux 会忽略它们，<tt>mmap()</tt> 手册页有说明）。若映射的是文件，<tt>do_mmap2()</tt> 据描述符查到 <tt>struct file</tt>，获取 <tt>mm_struct&rarr;mmap_sem</tt> 信号量后再调用 <tt>do_mmap_pgoff()</tt>。</p>
 
   <div class="figure">
-    <img src="../original_html/figures/understand-html012.png" alt="图 4.4">
+    <svg role="img" viewBox="0 0 600 120" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto;font-family:monospace;font-size:13px">
+      <title>图 4.4：函数调用图：sys_mmap2()</title>
+      <defs>
+        <marker id="arrow012" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="#333"/>
+        </marker>
+      </defs>
+      <rect x="20" y="35" width="160" height="50" rx="6" ry="6" fill="#fff" stroke="#333"/>
+      <text x="100" y="65" text-anchor="middle">sys_mmap2()</text>
+      <rect x="220" y="35" width="160" height="50" rx="6" ry="6" fill="#fff" stroke="#333"/>
+      <text x="300" y="65" text-anchor="middle">do_mmap2()</text>
+      <rect x="420" y="35" width="160" height="50" rx="6" ry="6" fill="#fff" stroke="#333"/>
+      <text x="500" y="65" text-anchor="middle">do_mmap_pgoff()</text>
+      <line x1="180" y1="60" x2="220" y2="60" stroke="#333" marker-end="url(#arrow012)"/>
+      <line x1="380" y1="60" x2="420" y2="60" stroke="#333" marker-end="url(#arrow012)"/>
+    </svg>
     <div class="caption">图 4.4：函数调用图：<tt>sys_mmap2()</tt></div>
   </div>
 
