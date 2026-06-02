@@ -391,7 +391,61 @@ Linux 试图把页在磁盘上组织成大小为 <tt>SWAPFILE_CLUSTER</tt> 的<e
 </p>
 
 <div class="figure" id="fig-add-to-swap-cache-detail">
-  <img src="../original_html/figures/understand-html068.png" alt="图 11.4：把页加入交换缓存">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 360" role="img" width="760" height="360" font-family="sans-serif" font-size="13">
+    <title>图 11.4：把页加入交换缓存</title>
+    <defs>
+      <marker id="f068arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M0,0 L10,5 L0,10 z" fill="#222"/>
+      </marker>
+    </defs>
+
+    <!-- struct page -->
+    <g>
+      <rect x="30" y="80" width="200" height="200" fill="#eef5ff" stroke="#1f4e8a" stroke-width="1.5"/>
+      <text x="130" y="100" text-anchor="middle" font-weight="bold">struct page</text>
+      <line x1="30" y1="110" x2="230" y2="110" stroke="#1f4e8a"/>
+      <rect x="50" y="130" width="160" height="34" fill="#fff" stroke="#1f4e8a"/>
+      <text x="130" y="152" text-anchor="middle">mapping</text>
+      <rect x="50" y="180" width="160" height="34" fill="#fff" stroke="#1f4e8a"/>
+      <text x="130" y="202" text-anchor="middle">index</text>
+      <rect x="50" y="230" width="160" height="34" fill="#fff" stroke="#1f4e8a"/>
+      <text x="130" y="252" text-anchor="middle">其他字段</text>
+    </g>
+
+    <!-- swapper_space (swap cache) -->
+    <g>
+      <rect x="500" y="40" width="230" height="120" fill="#fff5e6" stroke="#a85a00" stroke-width="1.5"/>
+      <text x="615" y="62" text-anchor="middle" font-weight="bold">交换缓存</text>
+      <text x="615" y="82" text-anchor="middle" font-style="italic">struct address_space</text>
+      <line x1="500" y1="92" x2="730" y2="92" stroke="#a85a00"/>
+      <text x="615" y="114" text-anchor="middle">swapper_space</text>
+      <text x="615" y="138" text-anchor="middle" font-size="12">（全局交换页缓存）</text>
+    </g>
+
+    <!-- swp_entry_t -->
+    <g>
+      <rect x="500" y="200" width="230" height="100" fill="#e8f7e8" stroke="#2e7a2e" stroke-width="1.5"/>
+      <text x="615" y="222" text-anchor="middle" font-weight="bold">swp_entry_t</text>
+      <line x1="500" y1="232" x2="730" y2="232" stroke="#2e7a2e"/>
+      <text x="615" y="254" text-anchor="middle" font-size="12">type（交换区编号）</text>
+      <text x="615" y="276" text-anchor="middle" font-size="12">offset（区内槽位）</text>
+    </g>
+
+    <!-- arrows -->
+    <g stroke="#222" stroke-width="1.5" fill="none">
+      <path d="M210,147 C 350,147 380,100 500,100" marker-end="url(#f068arr)"/>
+      <path d="M210,197 C 350,197 380,250 500,250" marker-end="url(#f068arr)"/>
+    </g>
+    <text x="355" y="115" text-anchor="middle" font-size="12">page-&gt;mapping = &amp;swapper_space</text>
+    <text x="355" y="240" text-anchor="middle" font-size="12">page-&gt;index = swp_entry_t</text>
+
+    <!-- add_to_swap_cache label -->
+    <g>
+      <rect x="280" y="310" width="200" height="34" fill="#f4f4f4" stroke="#555"/>
+      <text x="380" y="332" text-anchor="middle" font-family="monospace">add_to_swap_cache()</text>
+    </g>
+    <path d="M380,310 L380,290" stroke="#555" stroke-width="1.2" fill="none" marker-end="url(#f068arr)"/>
+  </svg>
   <div class="caption">图 11.4：把页加入交换缓存</div>
 </div>
 
