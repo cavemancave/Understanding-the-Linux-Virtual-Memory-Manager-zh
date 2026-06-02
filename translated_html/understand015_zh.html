@@ -534,7 +534,27 @@ IPC 的全部内部实现细节超出了本书的范围。本节只关注 <tt>sh
 </p>
 
 <div class="figure" id="fig-sys-shmget">
-  <img src="../original_html/figures/understand-html076.png" alt="图 12.6：调用图：sys_shmget()">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 200" role="img" aria-labelledby="fig076-title" width="360" height="200">
+    <title id="fig076-title">图 12.6：调用图：sys_shmget()</title>
+    <style>
+      .box { fill: #ffffff; stroke: #000000; stroke-width: 1; }
+      .lbl { font-family: monospace; font-size: 13px; text-anchor: middle; }
+      .arr { stroke: #000000; stroke-width: 1; fill: none; marker-end: url(#fig076-arrow); }
+    </style>
+    <defs>
+      <marker id="fig076-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M0,0 L10,5 L0,10 z" fill="#000000"/>
+      </marker>
+    </defs>
+    <rect class="box" x="110" y="15" width="140" height="30"/>
+    <text class="lbl" x="180" y="35">sys_shmget()</text>
+    <rect class="box" x="110" y="85" width="140" height="30"/>
+    <text class="lbl" x="180" y="105">newseg()</text>
+    <rect class="box" x="80" y="155" width="200" height="30"/>
+    <text class="lbl" x="180" y="175">shmem_file_setup()</text>
+    <line class="arr" x1="180" y1="45" x2="180" y2="83"/>
+    <line class="arr" x1="180" y1="115" x2="180" y2="153"/>
+  </svg>
   <div class="caption">图 12.6：调用图：<tt>sys_shmget()</tt></div>
 </div>
 
