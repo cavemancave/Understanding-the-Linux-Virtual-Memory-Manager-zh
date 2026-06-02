@@ -491,7 +491,31 @@ inode 上支持的最复杂操作是截断（truncation），它涉及四个明�
 </p>
 
 <div class="figure" id="fig-shmem-zero-setup">
-  <img src="../original_html/figures/understand-html075.png" alt="图 12.5：调用图：shmem_zero_setup()">
+  <svg role="img" aria-labelledby="fig075-title" viewBox="0 0 640 280" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto;font-family:sans-serif;font-size:12px;">
+    <title id="fig075-title">图 12.5：调用图：shmem_zero_setup()</title>
+    <defs>
+      <marker id="arr075" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M0,0 L10,5 L0,10 z" fill="#333"/>
+      </marker>
+    </defs>
+    <!-- root -->
+    <rect x="220" y="20" width="200" height="36" fill="#eef5ff" stroke="#36c"/>
+    <text x="320" y="42" text-anchor="middle" font-family="monospace">shmem_zero_setup()</text>
+    <!-- level 2 -->
+    <rect x="220" y="110" width="200" height="36" fill="#fff7e6" stroke="#c80"/>
+    <text x="320" y="132" text-anchor="middle" font-family="monospace">shmem_file_setup()</text>
+    <line x1="320" y1="56" x2="320" y2="108" stroke="#333" marker-end="url(#arr075)"/>
+    <!-- level 3 leaves -->
+    <rect x="20" y="220" width="170" height="36" fill="#e8f7ec" stroke="#3a3"/>
+    <text x="105" y="242" text-anchor="middle" font-family="monospace">get_empty_filp()</text>
+    <rect x="235" y="220" width="170" height="36" fill="#e8f7ec" stroke="#3a3"/>
+    <text x="320" y="242" text-anchor="middle" font-family="monospace">shmem_get_inode()</text>
+    <rect x="450" y="220" width="170" height="36" fill="#e8f7ec" stroke="#3a3"/>
+    <text x="535" y="242" text-anchor="middle" font-family="monospace">d_alloc()</text>
+    <line x1="290" y1="146" x2="140" y2="218" stroke="#333" marker-end="url(#arr075)"/>
+    <line x1="320" y1="146" x2="320" y2="218" stroke="#333" marker-end="url(#arr075)"/>
+    <line x1="350" y1="146" x2="500" y2="218" stroke="#333" marker-end="url(#arr075)"/>
+  </svg>
   <div class="caption">图 12.5：调用图：<tt>shmem_zero_setup()</tt></div>
 </div>
 
