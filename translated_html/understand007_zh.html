@@ -1038,7 +1038,31 @@
   <p>从前 fork 子进程时要把父地址空间完整复制，代价极高——可能很大部分需要从后备存储换入。于是采用<em>写时复制（COW）</em>。</p>
 
   <div class="figure">
-    <img src="../original_html/figures/understand-html025.png" alt="图 4.17">
+    <svg role="img" viewBox="0 0 900 200" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto;font-family:monospace;font-size:13px">
+      <title>图 4.17：函数调用图：do_wp_page()</title>
+      <defs>
+        <marker id="arrow025" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="#333"/>
+        </marker>
+      </defs>
+      <rect x="370" y="10" width="160" height="50" rx="6" ry="6" fill="#fff" stroke="#333"/>
+      <text x="450" y="40" text-anchor="middle">do_wp_page()</text>
+      <rect x="5" y="120" width="190" height="50" rx="6" ry="6" fill="#fff" stroke="#333"/>
+      <text x="100" y="150" text-anchor="middle">can_share_swap_page()</text>
+      <rect x="205" y="120" width="140" height="50" rx="6" ry="6" fill="#fff" stroke="#333"/>
+      <text x="275" y="150" text-anchor="middle">alloc_page()</text>
+      <rect x="355" y="120" width="170" height="50" rx="6" ry="6" fill="#fff" stroke="#333"/>
+      <text x="440" y="150" text-anchor="middle">copy_cow_page()</text>
+      <rect x="535" y="120" width="170" height="50" rx="6" ry="6" fill="#fff" stroke="#333"/>
+      <text x="620" y="150" text-anchor="middle">lru_cache_add()</text>
+      <rect x="715" y="120" width="180" height="50" rx="6" ry="6" fill="#fff" stroke="#333"/>
+      <text x="805" y="150" text-anchor="middle">free_swap_and_cache()</text>
+      <line x1="400" y1="60" x2="100" y2="120" stroke="#333" marker-end="url(#arrow025)"/>
+      <line x1="425" y1="60" x2="275" y2="120" stroke="#333" marker-end="url(#arrow025)"/>
+      <line x1="450" y1="60" x2="440" y2="120" stroke="#333" marker-end="url(#arrow025)"/>
+      <line x1="475" y1="60" x2="620" y2="120" stroke="#333" marker-end="url(#arrow025)"/>
+      <line x1="500" y1="60" x2="805" y2="120" stroke="#333" marker-end="url(#arrow025)"/>
+    </svg>
     <div class="caption">图 4.17：函数调用图：<tt>do_wp_page()</tt></div>
   </div>
 
