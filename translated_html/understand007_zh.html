@@ -742,7 +742,31 @@
   <p>负责删除内存区（部分或全部）的函数是 <tt>do_munmap()</tt>，相对简单，大致分三步：修整待解除映射区域的红黑树；释放与之相关的页与 PTE；若产生空洞则修整。</p>
 
   <div class="figure">
-    <img src="../original_html/figures/understand-html019.png" alt="图 4.11">
+    <svg role="img" viewBox="0 0 900 200" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto;font-family:monospace;font-size:13px">
+      <title>图 4.11：函数调用图：do_munmap()</title>
+      <defs>
+        <marker id="arrow019" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="#333"/>
+        </marker>
+      </defs>
+      <rect x="370" y="10" width="160" height="50" rx="6" ry="6" fill="#fff" stroke="#333"/>
+      <text x="450" y="40" text-anchor="middle">do_munmap()</text>
+      <rect x="5" y="120" width="130" height="50" rx="6" ry="6" fill="#fff" stroke="#333"/>
+      <text x="70" y="150" text-anchor="middle">rb_erase()</text>
+      <rect x="145" y="120" width="220" height="50" rx="6" ry="6" fill="#fff" stroke="#333"/>
+      <text x="255" y="150" text-anchor="middle">remove_shared_vm_struct()</text>
+      <rect x="375" y="120" width="180" height="50" rx="6" ry="6" fill="#fff" stroke="#333"/>
+      <text x="465" y="150" text-anchor="middle">zap_page_range()</text>
+      <rect x="565" y="120" width="160" height="50" rx="6" ry="6" fill="#fff" stroke="#333"/>
+      <text x="645" y="150" text-anchor="middle">unmap_fixup()</text>
+      <rect x="735" y="120" width="160" height="50" rx="6" ry="6" fill="#fff" stroke="#333"/>
+      <text x="815" y="150" text-anchor="middle">free_pgtables()</text>
+      <line x1="400" y1="60" x2="80" y2="120" stroke="#333" marker-end="url(#arrow019)"/>
+      <line x1="420" y1="60" x2="255" y2="120" stroke="#333" marker-end="url(#arrow019)"/>
+      <line x1="450" y1="60" x2="465" y2="120" stroke="#333" marker-end="url(#arrow019)"/>
+      <line x1="480" y1="60" x2="645" y2="120" stroke="#333" marker-end="url(#arrow019)"/>
+      <line x1="500" y1="60" x2="815" y2="120" stroke="#333" marker-end="url(#arrow019)"/>
+    </svg>
     <div class="caption">图 4.11：函数调用图：<tt>do_munmap()</tt></div>
   </div>
 
