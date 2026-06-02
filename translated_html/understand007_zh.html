@@ -27,7 +27,54 @@
   <p>从用户视角看，地址空间是平坦的线性地址空间，但内核视角则大不相同。地址空间被划分为两部分：用户空间部分会随每次完全的上下文切换而改变，内核地址空间则保持不变。两者的分界由 <tt>PAGE_OFFSET</tt> 决定，在 x86 上是 <tt>0xC0000000</tt>。这意味着 3 GiB 供进程使用，剩下 1 GiB 一直由内核映射。内核所见的线性虚拟地址空间如图 4.1 所示。</p>
 
   <div class="figure">
-    <img src="../original_html/figures/understand-html010.png" alt="图 4.1">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 720" width="520" height="720" role="img" aria-label="图 4.1：内核地址空间">
+      <title>图 4.1：内核地址空间</title>
+      <style>
+        .box { fill: #f7f7f7; stroke: #222; stroke-width: 1.2; }
+        .gap { fill: #d9d9d9; stroke: #222; stroke-width: 1.2; }
+        .addr { font-family: "Courier New", monospace; font-size: 13px; fill: #111; }
+        .label { font-family: sans-serif; font-size: 13px; fill: #111; }
+        .mono { font-family: "Courier New", monospace; font-size: 13px; fill: #111; }
+        .tick { stroke: #222; stroke-width: 1; }
+      </style>
+
+      <!-- regions: x from 170 to 330 -->
+      <rect class="box" x="170" y="20"  width="160" height="50"/>   <!-- fixed mappings -->
+      <rect class="box" x="170" y="70"  width="160" height="60"/>   <!-- kmap -->
+      <rect class="gap" x="170" y="130" width="160" height="10"/>   <!-- 2 page gap -->
+      <rect class="box" x="170" y="140" width="160" height="150"/>  <!-- vmalloc -->
+      <rect class="gap" x="170" y="290" width="160" height="40"/>   <!-- VMALLOC_OFFSET 8 MiB -->
+      <rect class="box" x="170" y="330" width="160" height="230"/>  <!-- physical memory mapping -->
+      <rect class="box" x="170" y="560" width="160" height="40"/>   <!-- mem_map -->
+      <rect class="box" x="170" y="600" width="160" height="80"/>   <!-- 8 MiB reserved kernel image -->
+
+      <!-- boundary tick marks on the left -->
+      <line class="tick" x1="160" y1="20"  x2="170" y2="20"/>
+      <line class="tick" x1="160" y1="70"  x2="170" y2="70"/>
+      <line class="tick" x1="160" y1="130" x2="170" y2="130"/>
+      <line class="tick" x1="160" y1="290" x2="170" y2="290"/>
+      <line class="tick" x1="160" y1="330" x2="170" y2="330"/>
+      <line class="tick" x1="160" y1="560" x2="170" y2="560"/>
+      <line class="tick" x1="160" y1="600" x2="170" y2="600"/>
+      <line class="tick" x1="160" y1="680" x2="170" y2="680"/>
+
+      <!-- address labels on the left -->
+      <text class="addr" x="155" y="24"  text-anchor="end">FIXADDR_TOP = 0xFFFFE000</text>
+      <text class="addr" x="155" y="74"  text-anchor="end">FIXADDR_START</text>
+      <text class="addr" x="155" y="134" text-anchor="end">PKMAP_BASE</text>
+      <text class="addr" x="155" y="294" text-anchor="end">VMALLOC_START</text>
+      <text class="addr" x="155" y="684" text-anchor="end">PAGE_OFFSET = 0xC0000000</text>
+
+      <!-- region names on the right -->
+      <text class="label" x="340" y="50">固定虚拟地址映射</text>
+      <text class="mono"  x="340" y="105">kmap() 区</text>
+      <text class="label" x="340" y="138">2 页间隔</text>
+      <text class="mono"  x="340" y="220">vmalloc 区</text>
+      <text class="label" x="340" y="315">VMALLOC_OFFSET（8 MiB 间隔）</text>
+      <text class="label" x="340" y="450">物理内存映射</text>
+      <text class="mono"  x="340" y="585">mem_map（约 16 MiB）</text>
+      <text class="label" x="340" y="645">内核映像（保留 8 MiB）</text>
+    </svg>
     <div class="caption">图 4.1：内核地址空间</div>
   </div>
 
