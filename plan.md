@@ -1,114 +1,25 @@
-# Plan: Translate remaining chapters + convert figures to inline SVG
+# Plan — Completion summary
 
-## User's standing instructions ("order")
-1. Maintain a doc to remember the user's order (this plan.md in session + AGENTS.md in repo).
-2. Use the project's original git identity `cavemancave <echooffapple@gmail.com>` (matches origin/main history). Override the current worktree's `user.name`/`user.email` to this if needed.
-3. Translate the remaining English HTML files into Chinese.
-4. Commit messages are written in English.
-5. Commit each file after a successful change (one file = one commit). Push after every commit.
-6. Replace figures in the Chinese HTML files with inline `<svg>`. SVG text/labels are translated to Chinese. Each figure is a separate task/commit to avoid context overload.
+The translation project is complete. This file is kept as a brief historical record;
+the durable rules live in `AGENTS.md`.
 
-## Current state
-- Translated: `understand001_zh.html` .. `understand009_zh.html`.
-- Remaining English source files to translate: `understand010.html` .. `understand029.html` (20 files: chapters 7–14 + appendices A–K).
-- Figures in `original_html/figures/`: 81 PNGs (`understand-html001.png` .. `understand-html081.png`).
-- Figures already referenced in existing zh files: 28 (in `understand005_zh.html`..`understand008_zh.html`).
+## Final outcome
 
-## Workflow (UPDATED 2026-05-21: translate ALL chapters first, then convert figures)
+- **Phase 1 — translation**: all 28 source chapters translated.
+  - Front matter: `understand001_zh.html` (TOC), `understand002_zh.html` (Code Commentary Contents), `understand003_zh.html` (Preface).
+  - Main text, chapters 1–14: `understand004_zh.html` … `understand017_zh.html`.
+  - Code commentary, appendices A–K: `understand018_zh.html` … `understand028_zh.html`.
+  - `understand029.html` is empty in the source and was skipped.
+- **Phase 2 — figures**: every figure in every translated chapter is now an inline `<svg>` with Chinese labels. No `figures/understand-html*.png` reference remains in `translated_html/`.
+- **Navigation**: all `<a href="…">` cross-references point to `_zh.html` siblings.
 
-User's revised preference: finish translating every remaining English chapter into Chinese FIRST (PNG `<img>` refs kept as-is), and only AFTER all chapters are translated, go back and convert figures to inline SVG, chapter by chapter.
+## Workflow that worked
 
-Each unit (one file translation, one figure conversion) still runs in a **fresh sub-agent (separate context window)** via the `task` tool. The main session only orchestrates.
+- One file per commit, English commit messages, push after every commit.
+- Fresh sub-agent (separate context window) per file translation and per figure conversion, to avoid context attention deterioration. Main session only orchestrates and verifies.
+- For oversized chapters (Appendix D, ~4300 lines): split by H2 / H3 / H4 sections, one sub-agent per section.
 
-### Phase 1 — Translate all remaining chapters
-For each remaining English source file `understandNNN.html` (013 → 029):
-1. Launch a fresh sub-agent A (translation): source path, target path, style rules, css link convention, leave image refs as PNGs, translate `alt` text. Sub-agent writes the file, then `git add` + `git commit` (English message) + `git push`.
-2. Verify commit landed, then move to next chapter.
+## If future work is needed
 
-### Phase 2 — Convert PNG figures to inline SVG
-After Phase 1 is complete, walk chapters in order. For each PNG `<img>` in each `understandNNN_zh.html`, launch a fresh sub-agent B that inspects the source PNG, authors a hand-drawn inline `<svg>` with Chinese labels, replaces the `<img>` tag, commits + pushes. Includes the retroactive SVG conversion for `understand005_zh..009_zh.html` figures still referenced as PNG, plus understand012 figures 056-058.
-
-### Already done in this session
-- understand010 (Chapter 7): translated + all 4 figures (033-036) SVGified.
-- understand011 (Chapter 8): translated + all 17 figures (037-053) SVGified.
-- understand012 (Chapter 9): translated; figures 054-055 SVGified; 056-058 deferred to Phase 2.
-- understand013 (Chapter 10) … understand020 (Appendix C): all translated (prose) in Phase 1.
-- understand021 (Appendix D): SKELETON + D.1 + D.2.1.1 only. The rest is BLOCKED — see below.
-- Navigation/cross-reference sweep: all translated chapters now link to `_zh.html` siblings (only legitimate placeholders remain, pointing to as-yet-untranslated appendices).
-- Root `index.html` no longer auto-redirects; `translated_html/index.html` links all completed chapters and appendices.
-
-### Status of remaining work (updated 2026-05-25)
-- **Phase 1 (chapter translation): COMPLETE.** All 28 source chapters translated.
-  - Appendix D (`understand021_zh.html`) — done H3-by-H3 (D.1, D.2.1, D.2.2, D.2.3, D.2.4, D.2.5, D.2.6, D.3, D.4, D.5, D.6) using per-section sub-agents with surgical `edit` calls. Nav/cross-ref sweep applied.
-  - Appendices E–K (`understand022`–`understand028`) — done as single-file translations.
-  - `understand029.html` is an empty source file, skipped.
-- **Phase 2 SVG conversion**: ALL of Phase 2 still pending — figures 056-058 in understand012_zh, retroactive PNG→SVG for understand005-009 (28 figures), and figures in understand013-021 + appendices E–K.
-
-### Sub-agent silent-fail mitigation (lessons learned)
-- Sub-agents (`general-purpose`, sonnet or opus) become unable to complete work on translated files once the target is large (>~3000 lines) or when the sub-agent's `edit` budget is exhausted by many small interleaved changes.
-- For small source files (<1000 lines): single sub-agent works reliably (proven on understand010-020).
-- For medium source files (1000-2000 lines): split by H3 subsection.
-- For large source files (>3000 lines, like App D): hand-translate in main session, one H4 function per commit. Sub-agents are NOT reliable.
-
-### Sub-agent timeout & splitting policy (NEW 2026-05-22)
-To prevent runaway sub-agents that never report back, the main session enforces an internal timeout per sub-agent call and splits the work on timeout.
-
-- **Soft timeout**: ~10 minutes of wall time per sub-agent invocation (the main session should be ready to interrupt and re-plan if a `task` call goes silent that long).
-- **On timeout or silent failure**:
-  1. Interrupt the sub-agent (or treat it as failed if it returned `total_turns: 0` / no commit).
-  2. Check `git log --oneline -5` and the target file to see whether any partial work landed.
-  3. Split the remaining work into smaller units and relaunch:
-     - File >2000 lines → split by H2 section (one sub-agent per H2).
-     - H2 section still too large → split by H3 subsection.
-     - H3 subsection still failing → split by H4 (one function per sub-agent), or fall back to hand-translation in the main session.
-  4. Update plan.md and the SQL `todos` table to record the new finer-grained todos (e.g. `xlate-025-H1`, `xlate-025-H2`, …).
-- **Size heuristics for initial split (before first try):**
-  - <1000 lines: one sub-agent, whole file.
-  - 1000–2000 lines: one sub-agent, whole file, but read-then-`create` (single write) — no incremental `edit` loops.
-  - 2000–3000 lines: split by H2 up front.
-  - 3000 lines: split by H3 or H4 up front; consider hand-translation.
-- **Recovery**: every sub-agent prompt MUST instruct the agent to commit + push before exiting, so partial progress is never lost between retries.
-
-## Sub-agent contract
-- Type: `general-purpose` (full toolset, Sonnet) for translation; `general-purpose` for SVG too (geometry + commit work).
-- Each sub-agent is stateless: the launching prompt MUST contain all rules (git identity, commit-per-file, English message, push after commit, link to `AGENTS.md`).
-- Sub-agent is responsible for its own commit + push so the main context stays small.
-- Main session updates the SQL `todos` row to `done` once the sub-agent reports success and the commit/push is confirmed.
-
-## Commit message conventions (English)
-- Translation: `Translate understandNNN to Chinese (chapter X / appendix Y)`
-- SVG: `Inline SVG for figure N in understandNNN_zh (Chinese labels)`
-
-## Todos
-Tracked in the SQL `todos` table. Two kinds of todos:
-- `xlate-NNN` — translate `understandNNN.html`
-- `svg-NNN-K` — convert figure K used in `understandNNN_zh.html` to inline SVG
-
-## Notes / considerations
-- Before first commit, set `git config user.name cavemancave` and `git config user.email echooffapple@gmail.com` in this worktree.
-- Keep `understand_zh.css` link tag unchanged in each translated file.
-- For SVG: prefer hand-authored geometric SVG that approximates the original diagram; do not embed the PNG as base64.
-- If a figure is complex enough that recreation risks errors, flag it as `blocked` in todos and ask the user.
-
-### Navigation / cross-reference links
-- All `href` to sibling chapters MUST point to the `_zh.html` version when that chapter has been translated.
-- Nav blocks (Prev / Next / Up / TOC) and inline cross-references (e.g. `<a href="understandNNN.html#anchor">第 X.Y 节</a>`) both follow this rule.
-- If the target chapter is not yet translated, keep `../original_html/understandNNN.html#anchor` as a placeholder. When that chapter is later translated, sweep all files that reference it and rewrite to `understandNNN_zh.html#anchor`.
-- After translating each new chapter, run a quick scan:
-  `grep -rE 'href="(\.\./original_html/)?understand[0-9]+\.html' translated_html/`
-  and rewrite any link whose target is now translated.
-
-### Appendix translation: prose vs. code
-The appendices (`understand019_zh.html` onward, App A–K) are mostly annotated kernel source listings: large `<pre class="verbatim">` blocks of C code interleaved with bulleted prose that explains each numbered region. Rules:
-
-1. **Code blocks (`<PRE>` / `<pre class="verbatim">`) are NOT translated.** Keep them byte-for-byte identical to the source: identifiers, keywords, string literals, whitespace, and inline `/* … */` or `//` comments INSIDE the code stay in English.
-2. **Only prose between code blocks is translated.** This includes paragraphs, section headings, function descriptions, and the bulleted line-by-line explanations that reference line numbers in the preceding `<PRE>` block.
-3. **C identifiers in prose stay English.** Wrap them in `<tt>…</tt>` (or keep existing `<tt>`/`<code>` markup) — e.g. translate "The function `kmem_cache_create` allocates …" as "函数 `kmem_cache_create` 用于分配 …".
-4. **Verification:** after translating an appendix, run `grep -c '<PRE' original_html/understandNNN.html` and the same on the `_zh` file — counts must match. Diff the `<PRE>` blocks if uncertain.
-5. **Sub-agent prompts MUST repeat rules 1–4 verbatim** so each fresh context window applies them consistently.
-
-### Appendix D retry strategy (xlate-021)
-Previous two attempts on `understand021.html` (4317 lines) silently produced no output. For the retry:
-- First sub-agent: only `cp original_html/understand021.html translated_html/understand021_zh.html`, swap the CSS link to `understand_zh.css`, translate the `<title>` and top-level headings, commit the skeleton.
-- Then one sub-agent per H2 section (D.1 … D.6): translate prose only in that section's range, leave `<PRE>` blocks untouched, commit + push.
-- This keeps each sub-agent's working set well below the context limit.
+- Follow the rules in `AGENTS.md` (git identity, commit style, prose-vs-code rule, link sweep rule, one-figure-per-commit rule).
+- Use a fresh sub-agent per file when the change is non-trivial. Edit directly in the main session for small fix-ups.
