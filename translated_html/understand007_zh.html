@@ -811,7 +811,31 @@
   <p>各架构注册自己的缺页处理函数。名字任意，常见选择是 <tt>do_page_fault()</tt>，其 x86 调用图见图 4.12。</p>
 
   <div class="figure">
-    <img src="../original_html/figures/understand-html020.png" alt="图 4.12">
+    <svg role="img" viewBox="0 0 900 200" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto;font-family:monospace;font-size:13px">
+      <title>图 4.12：函数调用图：do_page_fault()</title>
+      <defs>
+        <marker id="arrow020" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="#333"/>
+        </marker>
+      </defs>
+      <rect x="370" y="10" width="160" height="50" rx="6" ry="6" fill="#fff" stroke="#333"/>
+      <text x="450" y="40" text-anchor="middle">do_page_fault()</text>
+      <rect x="5" y="120" width="190" height="50" rx="6" ry="6" fill="#fff" stroke="#333"/>
+      <text x="100" y="150" text-anchor="middle">handle_mm_fault()</text>
+      <rect x="205" y="120" width="160" height="50" rx="6" ry="6" fill="#fff" stroke="#333"/>
+      <text x="285" y="150" text-anchor="middle">expand_stack()</text>
+      <rect x="375" y="120" width="160" height="50" rx="6" ry="6" fill="#fff" stroke="#333"/>
+      <text x="455" y="150" text-anchor="middle">find_vma()</text>
+      <rect x="545" y="120" width="160" height="50" rx="6" ry="6" fill="#fff" stroke="#333"/>
+      <text x="625" y="150" text-anchor="middle">force_sig()</text>
+      <rect x="715" y="120" width="180" height="50" rx="6" ry="6" fill="#fff" stroke="#333"/>
+      <text x="805" y="150" text-anchor="middle">search_exception_table()</text>
+      <line x1="400" y1="60" x2="100" y2="120" stroke="#333" marker-end="url(#arrow020)"/>
+      <line x1="425" y1="60" x2="285" y2="120" stroke="#333" marker-end="url(#arrow020)"/>
+      <line x1="450" y1="60" x2="455" y2="120" stroke="#333" marker-end="url(#arrow020)"/>
+      <line x1="475" y1="60" x2="625" y2="120" stroke="#333" marker-end="url(#arrow020)"/>
+      <line x1="500" y1="60" x2="805" y2="120" stroke="#333" marker-end="url(#arrow020)"/>
+    </svg>
     <div class="caption">图 4.12：函数调用图：<tt>do_page_fault()</tt></div>
   </div>
 
