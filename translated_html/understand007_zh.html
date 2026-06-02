@@ -542,7 +542,22 @@
   <p>新建映射时需找到足够大的空闲区域，由 <tt>get_unmapped_area()</tt> 完成。其调用图如图 4.5 所示。函数参数包括：被映射的文件/设备 <tt>struct file</tt>、文件内偏移 <tt>pgoff</tt>、请求地址 <tt>address</tt>、长度 <tt>length</tt>，以及保护标志 <tt>flags</tt>。</p>
 
   <div class="figure">
-    <img src="../original_html/figures/understand-html013.png" alt="图 4.5">
+    <svg role="img" viewBox="0 0 600 220" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto;font-family:monospace;font-size:13px">
+      <title>图 4.5：函数调用图：get_unmapped_area()</title>
+      <defs>
+        <marker id="arrow013" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="#333"/>
+        </marker>
+      </defs>
+      <rect x="200" y="20" width="200" height="50" rx="6" ry="6" fill="#fff" stroke="#333"/>
+      <text x="300" y="50" text-anchor="middle">get_unmapped_area()</text>
+      <rect x="20" y="140" width="240" height="50" rx="6" ry="6" fill="#fff" stroke="#333"/>
+      <text x="140" y="170" text-anchor="middle">f_op-&gt;get_unmapped_area()</text>
+      <rect x="320" y="140" width="260" height="50" rx="6" ry="6" fill="#fff" stroke="#333"/>
+      <text x="450" y="170" text-anchor="middle">arch_get_unmapped_area()</text>
+      <line x1="270" y1="70" x2="160" y2="140" stroke="#333" marker-end="url(#arrow013)"/>
+      <line x1="330" y1="70" x2="430" y2="140" stroke="#333" marker-end="url(#arrow013)"/>
+    </svg>
     <div class="caption">图 4.5：函数调用图：<tt>get_unmapped_area()</tt></div>
   </div>
 
