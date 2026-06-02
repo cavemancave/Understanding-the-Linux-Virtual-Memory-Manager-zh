@@ -689,7 +689,40 @@
 
   <h3>4.4.9　锁定内存区</h3>
   <div class="figure">
-    <img src="../original_html/figures/understand-html018.png" alt="图 4.10">
+    <svg role="img" viewBox="0 0 760 400" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto;font-family:monospace;font-size:13px">
+      <title>图 4.10：函数调用图：sys_mlock()</title>
+      <defs>
+        <marker id="arrow018" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="#333"/>
+        </marker>
+      </defs>
+      <rect x="300" y="10" width="160" height="50" rx="6" ry="6" fill="#fff" stroke="#333"/>
+      <text x="380" y="40" text-anchor="middle">sys_mlock()</text>
+      <rect x="300" y="90" width="160" height="50" rx="6" ry="6" fill="#fff" stroke="#333"/>
+      <text x="380" y="120" text-anchor="middle">do_mlock()</text>
+      <rect x="300" y="170" width="160" height="50" rx="6" ry="6" fill="#fff" stroke="#333"/>
+      <text x="380" y="200" text-anchor="middle">mlock_fixup()</text>
+      <rect x="10" y="260" width="180" height="50" rx="6" ry="6" fill="#fff" stroke="#333"/>
+      <text x="100" y="290" text-anchor="middle">mlock_fixup_all()</text>
+      <rect x="200" y="260" width="180" height="50" rx="6" ry="6" fill="#fff" stroke="#333"/>
+      <text x="290" y="290" text-anchor="middle">mlock_fixup_start()</text>
+      <rect x="390" y="260" width="170" height="50" rx="6" ry="6" fill="#fff" stroke="#333"/>
+      <text x="475" y="290" text-anchor="middle">mlock_fixup_end()</text>
+      <rect x="570" y="260" width="180" height="50" rx="6" ry="6" fill="#fff" stroke="#333"/>
+      <text x="660" y="290" text-anchor="middle">mlock_fixup_middle()</text>
+      <rect x="280" y="350" width="200" height="40" rx="6" ry="6" fill="#fff" stroke="#333"/>
+      <text x="380" y="375" text-anchor="middle">make_pages_present()</text>
+      <line x1="380" y1="60" x2="380" y2="90" stroke="#333" marker-end="url(#arrow018)"/>
+      <line x1="380" y1="140" x2="380" y2="170" stroke="#333" marker-end="url(#arrow018)"/>
+      <line x1="350" y1="220" x2="120" y2="260" stroke="#333" marker-end="url(#arrow018)"/>
+      <line x1="365" y1="220" x2="290" y2="260" stroke="#333" marker-end="url(#arrow018)"/>
+      <line x1="395" y1="220" x2="475" y2="260" stroke="#333" marker-end="url(#arrow018)"/>
+      <line x1="410" y1="220" x2="640" y2="260" stroke="#333" marker-end="url(#arrow018)"/>
+      <line x1="120" y1="310" x2="320" y2="350" stroke="#333" marker-end="url(#arrow018)"/>
+      <line x1="290" y1="310" x2="360" y2="350" stroke="#333" marker-end="url(#arrow018)"/>
+      <line x1="475" y1="310" x2="410" y2="350" stroke="#333" marker-end="url(#arrow018)"/>
+      <line x1="640" y1="310" x2="450" y2="350" stroke="#333" marker-end="url(#arrow018)"/>
+    </svg>
     <div class="caption">图 4.10：函数调用图：<tt>sys_mlock()</tt></div>
   </div>
 
