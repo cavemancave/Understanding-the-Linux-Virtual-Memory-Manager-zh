@@ -644,7 +644,25 @@
   <p>若需要移动，<tt>do_mremap()</tt> 先调 <tt>get_unmapped_area()</tt> 找到足够大的新位置，再用 <tt>move_vma()</tt> 把原 VMA 移过去。其调用图见图 4.8。</p>
 
   <div class="figure">
-    <img src="../original_html/figures/understand-html016.png" alt="图 4.8">
+    <svg role="img" viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto;font-family:monospace;font-size:13px">
+      <title>图 4.8：函数调用图：move_vma()</title>
+      <defs>
+        <marker id="arrow016" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="#333"/>
+        </marker>
+      </defs>
+      <rect x="270" y="10" width="160" height="50" rx="6" ry="6" fill="#fff" stroke="#333"/>
+      <text x="350" y="40" text-anchor="middle">move_vma()</text>
+      <rect x="20" y="120" width="180" height="50" rx="6" ry="6" fill="#fff" stroke="#333"/>
+      <text x="110" y="150" text-anchor="middle">vma_merge()</text>
+      <rect x="230" y="120" width="220" height="50" rx="6" ry="6" fill="#fff" stroke="#333"/>
+      <text x="340" y="150" text-anchor="middle">move_page_tables()</text>
+      <rect x="480" y="120" width="220" height="50" rx="6" ry="6" fill="#fff" stroke="#333"/>
+      <text x="590" y="150" text-anchor="middle">make_pages_present()</text>
+      <line x1="310" y1="60" x2="140" y2="120" stroke="#333" marker-end="url(#arrow016)"/>
+      <line x1="350" y1="60" x2="340" y2="120" stroke="#333" marker-end="url(#arrow016)"/>
+      <line x1="390" y1="60" x2="560" y2="120" stroke="#333" marker-end="url(#arrow016)"/>
+    </svg>
     <div class="caption">图 4.8：函数调用图：<tt>move_vma()</tt></div>
   </div>
 
