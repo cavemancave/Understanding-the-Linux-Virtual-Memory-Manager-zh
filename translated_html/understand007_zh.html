@@ -619,7 +619,25 @@
   <p><tt>mremap()</tt> 是用于扩大或缩小现有映射的系统调用，由 <tt>sys_mremap()</tt> 实现。当 flags 未指定 <tt>MREMAP_FIXED</tt> 时，若区域扩大或与另一个区域重叠，函数可能移动它。调用图见图 4.7。</p>
 
   <div class="figure">
-    <img src="../original_html/figures/understand-html015.png" alt="图 4.7">
+    <svg role="img" viewBox="0 0 600 240" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto;font-family:monospace;font-size:13px">
+      <title>图 4.7：函数调用图：sys_mremap()</title>
+      <defs>
+        <marker id="arrow015" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="#333"/>
+        </marker>
+      </defs>
+      <rect x="220" y="10" width="160" height="50" rx="6" ry="6" fill="#fff" stroke="#333"/>
+      <text x="300" y="40" text-anchor="middle">sys_mremap()</text>
+      <rect x="220" y="95" width="160" height="50" rx="6" ry="6" fill="#fff" stroke="#333"/>
+      <text x="300" y="125" text-anchor="middle">do_mremap()</text>
+      <rect x="20" y="180" width="220" height="50" rx="6" ry="6" fill="#fff" stroke="#333"/>
+      <text x="130" y="210" text-anchor="middle">get_unmapped_area()</text>
+      <rect x="340" y="180" width="160" height="50" rx="6" ry="6" fill="#fff" stroke="#333"/>
+      <text x="420" y="210" text-anchor="middle">move_vma()</text>
+      <line x1="300" y1="60" x2="300" y2="95" stroke="#333" marker-end="url(#arrow015)"/>
+      <line x1="270" y1="145" x2="170" y2="180" stroke="#333" marker-end="url(#arrow015)"/>
+      <line x1="330" y1="145" x2="410" y2="180" stroke="#333" marker-end="url(#arrow015)"/>
+    </svg>
     <div class="caption">图 4.7：函数调用图：<tt>sys_mremap()</tt></div>
   </div>
 
